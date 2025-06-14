@@ -9,6 +9,12 @@ import PlaybackBar from "@/components/playback-bar";
 import { TimeProvider, useTime } from "@/context/time-context";
 import Sidebar from "@/components/side-nav";
 import Loading from "@/components/loading-component";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 export default function EpisodeViewer({
   data,
@@ -171,7 +177,7 @@ function EpisodeViewerInner({ data }: { data: any }) {
         className={`flex max-h-screen flex-col gap-4 px-4 md:flex-1 relative ${isLoading ? "overflow-hidden" : "overflow-y-auto"}`}
       >
         {isLoading && <Loading />}
-        <section className="sticky top-0 bg-slate-950 z-40">
+        <header className="sticky top-0 bg-slate-950 z-40">
 
           <div className="flex items-center justify-start my-4">
             <div>
@@ -182,39 +188,66 @@ function EpisodeViewerInner({ data }: { data: any }) {
                 <p className="text-lg font-semibold">Dataset: {datasetInfo.repoId}</p>
               </a>
 
-              <p className="font-mono text-lg font-semibold">
+              <h1 className="font-mono text-lg font-semibold">
                 Episode: {episodeId}
-              </p>
+              </h1>
             </div>
           </div>
 
           <PlaybackBar />
-        </section>
+        </header>
+        <Accordion
+          type="multiple"
+          className="w-full"
+          defaultValue={['videos', 'graphs']}
+          onValueChange={(value) => {
+            console.log('value :', value)
+            const videos = value.filter(v => v === 'videos');
+            if (videos.length === 0) {
+              setIsPlaying((prev: boolean) => !prev)
+            }
+          }}
+        >
+          <AccordionItem value="videos">
+            <AccordionTrigger>
+              <h2 className="font-mono text-lg font-semibold">Videos</h2>
+            </AccordionTrigger>
+            <AccordionContent className="flex flex-col gap-4 text-balance">
+              {/* Videos */}
+              {videosInfo.length && (
+                <VideosPlayer
+                  videosInfo={videosInfo}
+                  onVideosReady={() => setVideosReady(true)}
+                />
+              )}
+            </AccordionContent>
+          </AccordionItem>
 
-        {/* Videos */}
-        {videosInfo.length && (
-          <VideosPlayer
-            videosInfo={videosInfo}
-            onVideosReady={() => setVideosReady(true)}
-          />
-        )}
+          <AccordionItem value="graphs">
+            <AccordionTrigger>
+              <h2 className="font-mono text-lg font-semibold">Graphs</h2>
+            </AccordionTrigger>
+            <AccordionContent className="flex flex-col gap-4 text-balance">
+              {/* Graph */}
+              <div className="mb-4">
+                <DataRecharts
+                  data={chartDataGroups}
+                  onChartsReady={() => setChartsReady(true)}
+                />
 
-        {/* Graph */}
-        <div className="mb-4">
-          <DataRecharts
-            data={chartDataGroups}
-            onChartsReady={() => setChartsReady(true)}
-          />
+                {ignoredColumns.length > 0 && (
+                  <p className="mt-2 text-orange-700">
+                    Columns{" "}
+                    <span className="font-mono">{ignoredColumns.join(", ")}</span> are
+                    NOT shown since the visualizer currently does not support 2D or 3D
+                    data.
+                  </p>
+                )}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
 
-          {ignoredColumns.length > 0 && (
-            <p className="mt-2 text-orange-700">
-              Columns{" "}
-              <span className="font-mono">{ignoredColumns.join(", ")}</span> are
-              NOT shown since the visualizer currently does not support 2D or 3D
-              data.
-            </p>
-          )}
-        </div>
+        </Accordion>
       </div>
     </div>
   );
