@@ -173,32 +173,22 @@ function EpisodeViewerInner({ data }: { data: any }) {
         {isLoading && <Loading />}
 
         <div className="flex items-center justify-start my-4">
-          <a
-            href="https://github.com/huggingface/lerobot"
-            target="_blank"
-            className="block"
-          >
-            <img
-              src="https://github.com/huggingface/lerobot/raw/main/media/lerobot-logo-thumbnail.png"
-              alt="LeRobot Logo"
-              className="w-32"
-            />
-          </a>
-
           <div>
             <a
               href={`https://huggingface.co/datasets/${datasetInfo.repoId}`}
               target="_blank"
             >
-              <p className="text-lg font-semibold">{datasetInfo.repoId}</p>
+              <p className="text-lg font-semibold">Dataset: {datasetInfo.repoId}</p>
             </a>
 
             <p className="font-mono text-lg font-semibold">
-              episode {episodeId}
+              Episode: {episodeId}
             </p>
           </div>
         </div>
 
+        <PlaybackBar />
+        
         {/* Videos */}
         {videosInfo.length && (
           <VideosPlayer
@@ -223,8 +213,6 @@ function EpisodeViewerInner({ data }: { data: any }) {
             </p>
           )}
         </div>
-
-        <PlaybackBar />
       </div>
     </div>
   );
