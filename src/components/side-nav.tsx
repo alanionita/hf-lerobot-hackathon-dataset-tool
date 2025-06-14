@@ -52,6 +52,17 @@ const Sidebar: React.FC<SidebarProps> = ({
         }`}
         aria-label="Sidebar navigation"
       >
+        <a
+            href="https://github.com/huggingface/lerobot"
+            target="_blank"
+            className="block"
+          >
+            <img
+              src="https://github.com/huggingface/lerobot/raw/main/media/lerobot-logo-thumbnail.png"
+              alt="LeRobot Logo"
+              className="w-32"
+            />
+          </a>
         <ul>
           <li>Number of samples/frames: {datasetInfo.total_frames}</li>
           <li>Number of episodes: {datasetInfo.total_episodes}</li>
