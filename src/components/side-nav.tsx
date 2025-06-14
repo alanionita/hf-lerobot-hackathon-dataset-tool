@@ -67,7 +67,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               <li key={episode} className="mt-0.5 font-mono text-sm">
                 <Link
                   href={`./episode_${episode}`}
-                  className={`underline ${episode === episodeId ? "-ml-1 font-bold" : ""}`}
+                  className={`underline ${episode === episodeId ? "-ml-1 font-bold text-[#ff9b00]" : ""}`}
                 >
                   Episode {episode}
                 </Link>
