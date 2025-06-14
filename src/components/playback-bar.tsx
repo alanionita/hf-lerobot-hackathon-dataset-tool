@@ -53,7 +53,7 @@ const PlaybackBar: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center gap-4 w-full max-w-4xl mx-auto sticky bottom-0 bg-slate-900/95 px-4 py-3 rounded-3xl mt-auto">
+    <div className="flex items-center gap-4 w-full max-100vw sticky bottom-0 bg-slate-900/95 px-4 py-3">
       <button
         title="Jump backward 5 seconds"
         onClick={() => setCurrentTime(Math.max(0, currentTime - 5))}
