@@ -168,27 +168,29 @@ function EpisodeViewerInner({ data }: { data: any }) {
 
       {/* Content */}
       <div
-        className={`flex max-h-screen flex-col gap-4 p-4 md:flex-1 relative ${isLoading ? "overflow-hidden" : "overflow-y-auto"}`}
+        className={`flex max-h-screen flex-col gap-4 px-4 md:flex-1 relative ${isLoading ? "overflow-hidden" : "overflow-y-auto"}`}
       >
         {isLoading && <Loading />}
+        <section className="sticky top-0 bg-slate-950 z-40">
 
-        <div className="flex items-center justify-start my-4">
-          <div>
-            <a
-              href={`https://huggingface.co/datasets/${datasetInfo.repoId}`}
-              target="_blank"
-            >
-              <p className="text-lg font-semibold">Dataset: {datasetInfo.repoId}</p>
-            </a>
+          <div className="flex items-center justify-start my-4">
+            <div>
+              <a
+                href={`https://huggingface.co/datasets/${datasetInfo.repoId}`}
+                target="_blank"
+              >
+                <p className="text-lg font-semibold">Dataset: {datasetInfo.repoId}</p>
+              </a>
 
-            <p className="font-mono text-lg font-semibold">
-              Episode: {episodeId}
-            </p>
+              <p className="font-mono text-lg font-semibold">
+                Episode: {episodeId}
+              </p>
+            </div>
           </div>
-        </div>
 
-        <PlaybackBar />
-        
+          <PlaybackBar />
+        </section>
+
         {/* Videos */}
         {videosInfo.length && (
           <VideosPlayer
