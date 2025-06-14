@@ -287,7 +287,7 @@ export const VideosPlayer = ({
               ref={(el) => {
                 videoContainerRefs.current[video.filename] = el;
               }}
-              className={`${isEnlarged ? "z-40 fixed inset-0 bg-black bg-opacity-90 flex flex-col items-center justify-center" : "max-w-96"}`}
+              className={`${isEnlarged ? "z-40 fixed inset-0 bg-black bg-opacity-90 flex flex-col items-center justify-center" : "max-w-5/10"}`}
               style={isEnlarged ? { height: "100vh", width: "100vw" } : {}}
             >
               <p className="truncate w-full rounded-t-xl bg-gray-800 px-2 text-sm text-gray-300 flex items-center justify-between">
