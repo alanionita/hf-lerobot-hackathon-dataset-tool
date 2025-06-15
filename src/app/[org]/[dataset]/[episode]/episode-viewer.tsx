@@ -56,14 +56,39 @@ function EpisodeViewerInner({ data }: { data: any }) {
   
   const router = useRouter();
   const searchParams = useSearchParams();
-  
-  
+  const [annotations, setAnnotations] = useState<string[]>(getInitialAnnotations);
+  const [newAnnotation, setNewAnnotation] = useState("");
+
+  function getInitialAnnotations(){
+    const initialAnnotations = localStorage.getItem(`annotations-episode-${episodeId}`);
+    if (initialAnnotations)
+    {
+      const parsedInitialAnnotations = JSON.parse(initialAnnotations);
+      return parsedInitialAnnotations;
+    } else{
+      return [];
+    }
+  }
+
+  useEffect(() => {
+    getInitialAnnotations()
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem(`annotations-episode-${episodeId}`, JSON.stringify(annotations));
+  }, [annotations]);
+
   const [annotationFormVisible, setShowAnnotationForm] = useState(false);
   const showAnnotationForm = () => {
     setShowAnnotationForm(true);
   }  
 
-  function submitAnnotation(){
+  function submitAnnotation() {
+    if (annotations && newAnnotation && Array.isArray(annotations))
+    {
+      setAnnotations([...annotations, newAnnotation]);
+    }
+    setNewAnnotation("");
     setShowAnnotationForm(false);
   }
 
@@ -225,6 +250,14 @@ function EpisodeViewerInner({ data }: { data: any }) {
             </AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
               <div>
+                <ul>
+                  {annotations.map((annotation) => (
+                    <li key={annotation} className="mt-0.5 font-mono text-sm gap-4">
+                      {annotation}
+                    </li>
+                  ))}
+                </ul>
+
                 {!annotationFormVisible && (
                 <button 
                   className="bg-[#ff9b00] rounded border p-2 font-bold"
@@ -241,9 +274,12 @@ function EpisodeViewerInner({ data }: { data: any }) {
                         name="myAnnotation" 
                         rows={4}
                         cols={80}
+                        value={newAnnotation}
+                        onChange={(e) => setNewAnnotation(e.target.value)}
                         placeholder="Add annotation here"/>
                       <button 
-                        onClick={submitAnnotation}
+                        type="submit"
+                        onClick={(e) => submitAnnotation(e)}
                         className="bg-[#ff9b00] rounded border p-2 font-bold w-max"
                         >
                           Submit
