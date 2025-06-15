@@ -49,10 +49,11 @@ export default function Home(
       tag.src = "https://www.youtube.com/iframe_api";
       document.body.appendChild(tag);
     }
+
     let interval: NodeJS.Timeout;
     (window as any).onYouTubeIframeAPIReady = () => {
       playerRef.current = new (window as any).YT.Player("yt-bg-player", {
-        videoId: "Er8SPJsIYr0",
+        videoId: "Im-CMoGem6Q",
         playerVars: {
           autoplay: 1,
           mute: 1,
@@ -62,7 +63,7 @@ export default function Home(
           rel: 0,
           loop: 1,
           fs: 0,
-          playlist: "Er8SPJsIYr0",
+          playlist: "Im-CMoGem6Q",
           start: 0,
         },
         events: {
@@ -108,7 +109,7 @@ export default function Home(
       {/* Centered Content */}
       <div className="relative z-10 h-screen flex flex-col items-center justify-center text-white text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-6 drop-shadow-lg">
-          LeRobot Dataset Visualizer
+          Lancashire Dataset Tool - LeRobot fork
         </h1>
         <a
           href="https://x.com/RemiCadene/status/1825455895561859185"
@@ -158,13 +159,21 @@ export default function Home(
             ))}
           </div>
         </div>
-
+        <section className="flex gap-4">
         <Link
           href="/explore"
-          className="inline-block px-6 py-3 mt-8 rounded-md bg-sky-500 text-white font-semibold text-lg shadow-lg hover:bg-sky-400 transition-colors"
+          className="inline-block px-6 py-3 mt-8 rounded-md bg-red-600 text-white font-semibold text-lg shadow-lg hover:bg-green-400 transition-colors"
         >
           Explore Open Datasets
         </Link>
+
+        <Link
+          href="/manage"
+          className="inline-block px-6 py-3 mt-8 rounded-md bg-red-600 text-white font-semibold text-lg shadow-lg hover:bg-green-400 transition-colors"
+        >
+          Manage Datasets
+        </Link>
+        </section>
       </div>
     </div>
   );
