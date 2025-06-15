@@ -53,9 +53,15 @@ function EpisodeViewerInner({ data }: { data: any }) {
   const [videosReady, setVideosReady] = useState(!videosInfo.length);
   const [chartsReady, setChartsReady] = useState(false);
   const isLoading = !videosReady || !chartsReady;
-
+  
   const router = useRouter();
   const searchParams = useSearchParams();
+  
+  
+  const [annotationFormVisible, setShowAnnotationForm] = useState(false);
+  const showAnnotationForm = () => {
+    setShowAnnotationForm(true);
+  }  
 
   // State
   // Use context for time sync
@@ -199,7 +205,7 @@ function EpisodeViewerInner({ data }: { data: any }) {
         <Accordion
           type="multiple"
           className="w-full"
-          defaultValue={['videos', 'graphs']}
+          defaultValue={['videos', 'graphs', 'annotations']}
           onValueChange={(value) => {
             console.log('value :', value)
             const videos = value.filter(v => v === 'videos');
@@ -208,6 +214,31 @@ function EpisodeViewerInner({ data }: { data: any }) {
             }
           }}
         >
+
+          <AccordionItem value="annotations">
+            <AccordionTrigger>
+              <h2 className="font-mono text-lg font-semibold">Annotations</h2>
+            </AccordionTrigger>
+            <AccordionContent className="flex flex-col gap-4 text-balance">
+              <div>
+                {!annotationFormVisible && (
+                <button 
+                  className="bg-[#ff9b00] rounded border p-2 font-bold"
+                  onClick={showAnnotationForm}
+                >
+                  Add annotation
+                </button>
+                )}
+
+                {annotationFormVisible && (
+                  <div>
+                    Nothing here
+                  </div>
+                )}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
           <AccordionItem value="videos">
             <AccordionTrigger>
               <h2 className="font-mono text-lg font-semibold">Videos</h2>
