@@ -1,14 +1,15 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { redirect } from "next/navigation";
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | undefined };
-}) {
+export default function Home(
+  props: {
+    searchParams: Promise<{ [key: string]: string | undefined }>;
+  }
+) {
+  const searchParams = use(props.searchParams);
   // Redirect to the first episode of the dataset if REPO_ID is defined
   if (process.env.REPO_ID) {
     const episodeN = process.env.EPISODES

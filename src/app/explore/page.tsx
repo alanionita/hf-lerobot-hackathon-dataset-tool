@@ -6,11 +6,12 @@ import {
   formatStringWithVars,
 } from "@/utils/parquetUtils";
 
-export default async function ExplorePage({
-  searchParams,
-}: {
-  searchParams: { p?: string };
-}) {
+export default async function ExplorePage(
+  props: {
+    searchParams: Promise<{ p?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   let datasets: any[] = [];
   let currentPage = 1;
   let totalPages = 1;

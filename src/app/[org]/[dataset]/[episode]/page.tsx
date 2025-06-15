@@ -3,22 +3,24 @@ import { getEpisodeDataSafe } from "./fetch-data";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { org: string; dataset: string; episode: string };
-}) {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ org: string; dataset: string; episode: string }>;
+  }
+) {
+  const params = await props.params;
   const { org, dataset, episode } = params;
   return {
     title: `${org}/${dataset} | episode ${episode}`,
   };
 }
 
-export default async function EpisodePage({
-  params,
-}: {
-  params: { org: string; dataset: string; episode: string };
-}) {
+export default async function EpisodePage(
+  props: {
+    params: Promise<{ org: string; dataset: string; episode: string }>;
+  }
+) {
+  const params = await props.params;
   // episode is like 'episode_1'
   const { org, dataset, episode } = params;
   // fetchData should be updated if needed to support this path pattern
