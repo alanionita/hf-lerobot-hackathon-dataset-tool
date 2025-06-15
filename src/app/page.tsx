@@ -17,7 +17,7 @@ export default function Home(
       .map((x) => parseInt(x.trim(), 10))
       .filter((x) => !isNaN(x))[0] ?? 0;
 
-    redirect(`/${process.env.REPO_ID}/episode_${episodeN}`);
+    redirect(`/data/${process.env.REPO_ID}/episode_${episodeN}`);
   }
   // sync with hf.co/spaces URL params
   if (searchParams.path) {
@@ -27,9 +27,9 @@ export default function Home(
   // legacy sync with hf.co/spaces URL params
   let redirectUrl: string | null = null;
   if (searchParams?.dataset && searchParams?.episode) {
-    redirectUrl = `/${searchParams.dataset}/episode_${searchParams.episode}`;
+    redirectUrl = `/data/${searchParams.dataset}/episode_${searchParams.episode}`;
   } else if (searchParams?.dataset) {
-    redirectUrl = `/${searchParams.dataset}`;
+    redirectUrl = `/data/${searchParams.dataset}`;
   }
 
   if (redirectUrl && searchParams?.t) {
@@ -93,7 +93,7 @@ export default function Home(
     e.preventDefault();
     const value = inputRef.current?.value.trim();
     if (value) {
-      router.push(value);
+      router.push(`/data/${value}`);
     }
   };
 
@@ -144,24 +144,17 @@ export default function Home(
           <div className="font-semibold mb-2 text-lg">Example Datasets:</div>
           <div className="flex flex-col gap-2 items-center">
             {[
-              "lerobot/aloha_static_cups_open",
-              "lerobot/columbia_cairlab_pusht_real",
-              "lerobot/taco_play",
+              "/data/lerobot/aloha_static_cups_open",
+              "/data/lerobot/columbia_cairlab_pusht_real",
+              "/data/lerobot/taco_play",
             ].map((ds) => (
-              <button
-                key={ds}
+              <a 
+                href={ds}
                 type="button"
                 className="px-4 py-2 rounded bg-slate-700 text-sky-200 hover:bg-sky-700 hover:text-white transition-colors shadow"
-                onClick={() => {
-                  if (inputRef.current) {
-                    inputRef.current.value = ds;
-                    inputRef.current.focus();
-                  }
-                  router.push(ds);
-                }}
               >
                 {ds}
-              </button>
+              </a>
             ))}
           </div>
         </div>
