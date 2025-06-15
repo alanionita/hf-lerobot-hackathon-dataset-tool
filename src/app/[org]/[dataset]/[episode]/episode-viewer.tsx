@@ -63,6 +63,10 @@ function EpisodeViewerInner({ data }: { data: any }) {
     setShowAnnotationForm(true);
   }  
 
+  function submitAnnotation(){
+    setShowAnnotationForm(false);
+  }
+
   // State
   // Use context for time sync
   const { currentTime, setCurrentTime, setIsPlaying, isPlaying } = useTime();
@@ -231,9 +235,20 @@ function EpisodeViewerInner({ data }: { data: any }) {
                 )}
 
                 {annotationFormVisible && (
-                  <div>
-                    Nothing here
-                  </div>
+                    <form className="flex flex-col gap-4">
+                      <textarea 
+                        className="bg-white text-black rounded border p-2" 
+                        name="myAnnotation" 
+                        rows={4}
+                        cols={80}
+                        placeholder="Add annotation here"/>
+                      <button 
+                        onClick={submitAnnotation}
+                        className="bg-[#ff9b00] rounded border p-2 font-bold w-max"
+                        >
+                          Submit
+                      </button>
+                    </form>
                 )}
               </div>
             </AccordionContent>
