@@ -53,9 +53,44 @@ function EpisodeViewerInner({ data }: { data: any }) {
   const [videosReady, setVideosReady] = useState(!videosInfo.length);
   const [chartsReady, setChartsReady] = useState(false);
   const isLoading = !videosReady || !chartsReady;
-
+  
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [annotations, setAnnotations] = useState<string[]>(getInitialAnnotations);
+  const [newAnnotation, setNewAnnotation] = useState("");
+
+  function getInitialAnnotations(){
+    const initialAnnotations = localStorage.getItem(`annotations-episode-${episodeId}`);
+    if (initialAnnotations)
+    {
+      const parsedInitialAnnotations = JSON.parse(initialAnnotations);
+      return parsedInitialAnnotations;
+    } else{
+      return [];
+    }
+  }
+
+  useEffect(() => {
+    getInitialAnnotations()
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem(`annotations-episode-${episodeId}`, JSON.stringify(annotations));
+  }, [annotations]);
+
+  const [annotationFormVisible, setShowAnnotationForm] = useState(false);
+  const showAnnotationForm = () => {
+    setShowAnnotationForm(true);
+  }  
+
+  function submitAnnotation() {
+    if (annotations && newAnnotation && Array.isArray(annotations))
+    {
+      setAnnotations([...annotations, newAnnotation]);
+    }
+    setNewAnnotation("");
+    setShowAnnotationForm(false);
+  }
 
   // State
   // Use context for time sync
@@ -199,7 +234,7 @@ function EpisodeViewerInner({ data }: { data: any }) {
         <Accordion
           type="multiple"
           className="w-full"
-          defaultValue={['videos', 'graphs']}
+          defaultValue={['videos', 'graphs', 'annotations']}
           onValueChange={(value) => {
             console.log('value :', value)
             const videos = value.filter(v => v === 'videos');
@@ -208,6 +243,53 @@ function EpisodeViewerInner({ data }: { data: any }) {
             }
           }}
         >
+
+          <AccordionItem value="annotations">
+            <AccordionTrigger>
+              <h2 className="font-mono text-lg font-semibold">Annotations</h2>
+            </AccordionTrigger>
+            <AccordionContent className="flex flex-col gap-4 text-balance">
+              <div>
+                <ul>
+                  {annotations.map((annotation) => (
+                    <li key={annotation} className="mt-0.5 font-mono text-sm gap-4">
+                      {annotation}
+                    </li>
+                  ))}
+                </ul>
+
+                {!annotationFormVisible && (
+                <button 
+                  className="bg-[#ff9b00] rounded border p-2 font-bold"
+                  onClick={showAnnotationForm}
+                >
+                  Add annotation
+                </button>
+                )}
+
+                {annotationFormVisible && (
+                    <form className="flex flex-col gap-4">
+                      <textarea 
+                        className="bg-white text-black rounded border p-2" 
+                        name="myAnnotation" 
+                        rows={4}
+                        cols={80}
+                        value={newAnnotation}
+                        onChange={(e) => setNewAnnotation(e.target.value)}
+                        placeholder="Add annotation here"/>
+                      <button 
+                        type="submit"
+                        onClick={(e) => submitAnnotation(e)}
+                        className="bg-[#ff9b00] rounded border p-2 font-bold w-max"
+                        >
+                          Submit
+                      </button>
+                    </form>
+                )}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
           <AccordionItem value="videos">
             <AccordionTrigger>
               <h2 className="font-mono text-lg font-semibold">Videos</h2>
