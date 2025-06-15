@@ -30,6 +30,12 @@ export default function ParquetLoader() {
     const [queryResult, setQueryResult] = useState<any[]>([]);
     const [queryLoading, setQueryLoading] = useState(false);
 
+    const sampleQueries = [
+        `SELECT * FROM ${tableName} LIMIT 10`,
+        `SELECT COUNT(*) as total_rows FROM ${tableName}`,
+        `SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '${tableName}'`
+    ];
+
     const handleLoadParquet = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -198,6 +204,7 @@ export default function ParquetLoader() {
                             <label htmlFor="query" className="block text-sm font-medium text-gray-700 mb-1">
                                 SQL Query
                             </label>
+
                             <textarea
                                 id="query"
                                 value={queryInput}
@@ -207,6 +214,21 @@ export default function ParquetLoader() {
                                 placeholder={`SELECT * FROM ${state.tableName} LIMIT 10`}
                                 disabled={queryLoading}
                             />
+                        </div>
+
+                        <div className="mb-3">
+                            <p className="text-sm text-gray-600 mb-2">Sample queries:</p>
+                            <div className="flex flex-wrap gap-2">
+                                {sampleQueries.map((sampleQuery, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setQueryInput(sampleQuery)}
+                                        className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded hover:bg-blue-200"
+                                    >
+                                        {sampleQuery.length > 40 ? sampleQuery.substring(0, 40) + '...' : sampleQuery}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
 
                         <button
