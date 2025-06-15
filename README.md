@@ -52,6 +52,11 @@ You can start editing the page by modifying `src/app/page.tsx` or other files in
 
 Contributions, bug reports, and feature requests are welcome! Please open an issue or submit a pull request.
 
+## Authors
+
+- Alan and Katie, https://github.com/alanionita, for the UI tweaks to follow on additions
+- Mishig, https://github.com/mishig25 for the original rewrite of the html-visualiser Python script to NextJS 
+
 ## License
 
 This project is licensed under the MIT License.
