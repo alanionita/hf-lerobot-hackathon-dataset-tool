@@ -17,7 +17,7 @@ export default function Home(
       .map((x) => parseInt(x.trim(), 10))
       .filter((x) => !isNaN(x))[0] ?? 0;
 
-    redirect(`/${process.env.REPO_ID}/episode_${episodeN}`);
+    redirect(`/data/${process.env.REPO_ID}/episode_${episodeN}`);
   }
   // sync with hf.co/spaces URL params
   if (searchParams.path) {
@@ -27,9 +27,9 @@ export default function Home(
   // legacy sync with hf.co/spaces URL params
   let redirectUrl: string | null = null;
   if (searchParams?.dataset && searchParams?.episode) {
-    redirectUrl = `/${searchParams.dataset}/episode_${searchParams.episode}`;
+    redirectUrl = `/data/${searchParams.dataset}/episode_${searchParams.episode}`;
   } else if (searchParams?.dataset) {
-    redirectUrl = `/${searchParams.dataset}`;
+    redirectUrl = `/data/${searchParams.dataset}`;
   }
 
   if (redirectUrl && searchParams?.t) {
@@ -49,10 +49,11 @@ export default function Home(
       tag.src = "https://www.youtube.com/iframe_api";
       document.body.appendChild(tag);
     }
+
     let interval: NodeJS.Timeout;
     (window as any).onYouTubeIframeAPIReady = () => {
       playerRef.current = new (window as any).YT.Player("yt-bg-player", {
-        videoId: "Er8SPJsIYr0",
+        videoId: "Im-CMoGem6Q",
         playerVars: {
           autoplay: 1,
           mute: 1,
@@ -62,7 +63,7 @@ export default function Home(
           rel: 0,
           loop: 1,
           fs: 0,
-          playlist: "Er8SPJsIYr0",
+          playlist: "Im-CMoGem6Q",
           start: 0,
         },
         events: {
@@ -93,7 +94,7 @@ export default function Home(
     e.preventDefault();
     const value = inputRef.current?.value.trim();
     if (value) {
-      router.push(value);
+      router.push(`/data/${value}`);
     }
   };
 
@@ -108,7 +109,7 @@ export default function Home(
       {/* Centered Content */}
       <div className="relative z-10 h-screen flex flex-col items-center justify-center text-white text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-6 drop-shadow-lg">
-          LeRobot Dataset Visualizer
+          Lancashire Dataset Tool - LeRobot fork
         </h1>
         <a
           href="https://x.com/RemiCadene/status/1825455895561859185"
@@ -144,34 +145,35 @@ export default function Home(
           <div className="font-semibold mb-2 text-lg">Example Datasets:</div>
           <div className="flex flex-col gap-2 items-center">
             {[
-              "lerobot/aloha_static_cups_open",
-              "lerobot/columbia_cairlab_pusht_real",
-              "lerobot/taco_play",
+              "/data/lerobot/aloha_static_cups_open",
+              "/data/lerobot/columbia_cairlab_pusht_real",
+              "/data/lerobot/taco_play",
             ].map((ds) => (
-              <button
-                key={ds}
+              <a 
+                href={ds}
                 type="button"
                 className="px-4 py-2 rounded bg-slate-700 text-sky-200 hover:bg-sky-700 hover:text-white transition-colors shadow"
-                onClick={() => {
-                  if (inputRef.current) {
-                    inputRef.current.value = ds;
-                    inputRef.current.focus();
-                  }
-                  router.push(ds);
-                }}
               >
                 {ds}
-              </button>
+              </a>
             ))}
           </div>
         </div>
-
+        <section className="flex gap-4">
         <Link
           href="/explore"
-          className="inline-block px-6 py-3 mt-8 rounded-md bg-sky-500 text-white font-semibold text-lg shadow-lg hover:bg-sky-400 transition-colors"
+          className="inline-block px-6 py-3 mt-8 rounded-md bg-red-600 text-white font-semibold text-lg shadow-lg hover:bg-green-400 transition-colors"
         >
           Explore Open Datasets
         </Link>
+
+        <Link
+          href="/manage"
+          className="inline-block px-6 py-3 mt-8 rounded-md bg-red-600 text-white font-semibold text-lg shadow-lg hover:bg-green-400 transition-colors"
+        >
+          Manage Datasets
+        </Link>
+        </section>
       </div>
     </div>
   );

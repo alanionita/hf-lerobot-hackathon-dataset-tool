@@ -11,5 +11,5 @@ export default async function DatasetRootPage(
     .map((x) => parseInt(x.trim(), 10))
     .filter((x) => !isNaN(x))[0] ?? 0;
 
-  redirect(`/${params.org}/${params.dataset}/episode_${episodeN}`);
+  redirect(`/data/${params.org}/${params.dataset}/episode_${episodeN}`);
 }

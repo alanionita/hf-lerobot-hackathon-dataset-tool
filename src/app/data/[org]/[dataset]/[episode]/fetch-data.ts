@@ -109,6 +109,8 @@ export async function getEpisodeData(
         episode_index: episodeId.toString().padStart(6, "0"),
       });
 
+      console.log({parquetUrl})
+
     const arrayBuffer = await fetchParquetFile(parquetUrl);
     const data = await readParquetColumn(arrayBuffer, filteredColumnNames);
     // Flatten and map to array of objects for chartData
